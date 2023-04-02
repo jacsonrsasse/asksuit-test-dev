@@ -1,9 +1,12 @@
-const puppeteer = require('puppeteer');
+require("dotenv").config();
+const puppeteer = require("puppeteer");
 
 class BrowserService {
-
     static getBrowser() {
-        return puppeteer.launch({});
+        return puppeteer.launch({
+            headless: true,
+            devtools: true,
+        });
     }
 
     static closeBrowser(browser) {
