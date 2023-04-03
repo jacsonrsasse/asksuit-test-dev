@@ -3,7 +3,7 @@ var moment = require("moment");
 moment.locale("pt-br");
 const express = require("express");
 const router = express.Router();
-const { celebrate, Joi, Segments, CelebrateError } = require("celebrate");
+const { celebrate, Joi, Segments } = require("celebrate");
 const SearchsController = require("../controller/SearchsController");
 
 const NewJoi = Joi.extend(require("@joi/date"));
@@ -24,7 +24,7 @@ router.post(
                 .required()
                 .min(
                     moment(NewJoi.ref("checkin")).add(
-                        parseInt(process.env.MINIMUN_NIGHTS_STAY ?? 3),
+                        parseInt(process.env.MINIMUN_NIGHTS_STAY || 3),
                         "days"
                     )
                 ),

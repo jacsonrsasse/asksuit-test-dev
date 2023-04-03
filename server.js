@@ -1,6 +1,6 @@
 require("dotenv").config();
-require("express-async-errors");
 const express = require("express");
+require("express-async-errors");
 const { errors } = require("celebrate");
 
 const router = require("./src/router/router.js");
@@ -13,9 +13,8 @@ app.use("/", router);
 
 app.use(errors());
 
-app.use((err, req, res) => {
+app.use(async (err, req, res, next) => {
     if (err instanceof Exception) {
-        console.log(err);
         return res.status(err.statusCode).json({
             status: "Error",
             message: err.message,
@@ -29,7 +28,7 @@ app.use((err, req, res) => {
     });
 });
 
-const port = process.env.PORT ?? 8080;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

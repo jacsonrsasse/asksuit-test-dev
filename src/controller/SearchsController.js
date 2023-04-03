@@ -46,7 +46,7 @@ class SearchsController {
             return res.status(200).json(results);
         } catch (error) {
             throw new Exception(
-                "It looks like your request is taking too long to return. Please, try agan.",
+                "It looks like your request is taking too long to return. Please, try again.",
                 408
             );
         }

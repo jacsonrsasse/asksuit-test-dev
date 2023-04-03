@@ -2,9 +2,9 @@ class Exception {
     message;
     statusCode;
 
-    constructor(message, statusCode = 500) {
+    constructor(message, statusCode) {
         this.message = message;
-        this.statusCode = statusCode;
+        this.statusCode = statusCode || 500;
     }
 }
 
