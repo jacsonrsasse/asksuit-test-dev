@@ -5,9 +5,6 @@ const puppeteer = require("puppeteer");
 const Exception = require("../error/Exception");
 
 class BrowserService {
-    static url =
-        "https://pratagy.letsbook.com.br/D/Reserva?checkin={checkin_value}&checkout={checkout_value}&cidade=&hotel=12&adultos=2&criancas=&destino=Pratagy+Beach+Resort+All+Inclusive&promocode=&tarifa=&mesCalendario=3%2F14%2F2023";
-
     static getBrowser() {
         return puppeteer.launch();
     }
@@ -67,15 +64,22 @@ class BrowserService {
     }
 
     static createRequestUrl(req) {
+        if (!process.env.URL_WEB_CRAWLING) {
+            throw new Exception(
+                "Não foi definido o endereço de busca dos dados",
+                500
+            );
+        }
+
         const body = req.body;
         const checkin = moment(body.checkin, "YYYY-MM-DD").format("L");
         const checkout = moment(body.checkout, "YYYY-MM-DD").format("L");
 
-        const url = (process.env.URL_WEB_CRAWLING ?? BrowserService.url)
-            .replace("{checkin_value}", checkin)
-            .replace("{checkout_value}", checkout);
+        const url = new URL(process.env.URL_WEB_CRAWLING);
+        url.searchParams.set("checkin", checkin);
+        url.searchParams.set("checkout", checkout);
 
-        return url;
+        return url.toString();
     }
 }
 
