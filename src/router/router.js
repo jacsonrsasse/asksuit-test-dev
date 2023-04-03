@@ -23,11 +23,19 @@ router.post(
                 .format("YYYY-MM-DD")
                 .required()
                 .min(
-                    moment(NewJoi.ref("checkin")).add(
-                        parseInt(process.env.MINIMUN_NIGHTS_STAY || 3),
-                        "days"
-                    )
-                ),
+                    NewJoi.ref("checkin", {
+                        adjust: (value) =>
+                            moment(value).add(
+                                parseInt(process.env.MINIMUN_NIGHTS_STAY || 3),
+                                "days"
+                            ),
+                    })
+                )
+                .messages({
+                    "date.min": `{{#label}} must be ${parseInt(
+                        process.env.MINIMUN_NIGHTS_STAY || 3
+                    )} days greater than {{:#limit}}`,
+                }),
         },
     }),
     controller.search
