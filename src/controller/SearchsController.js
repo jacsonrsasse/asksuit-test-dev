@@ -57,7 +57,7 @@ class SearchsController {
         const checkin = moment(body.checkin, "YYYY-MM-DD").format("L");
         const checkout = moment(body.checkout, "YYYY-MM-DD").format("L");
 
-        const url = (process.env.URL_WEB_CRAWLING || SearchsController.url())
+        const url = (process.env.URL_WEB_CRAWLING ?? SearchsController.url())
             .replace("{checkin_value}", checkin)
             .replace("{checkout_value}", checkout);
 
