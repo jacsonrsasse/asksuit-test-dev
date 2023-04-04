@@ -2,12 +2,14 @@ require("dotenv").config();
 const express = require("express");
 require("express-async-errors");
 const { errors } = require("celebrate");
+const cors = require("cors");
 
 const router = require("./src/router/router.js");
 const Exception = require("./src/error/Exception.js");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use("/", router);
 
